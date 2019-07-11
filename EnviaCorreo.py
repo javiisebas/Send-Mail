@@ -1,8 +1,8 @@
+# Autor: Javier Sebastian Fernandez
+# Contacto: javi.sebas@hotmail.es
 
-# coding: utf-8
 
-# In[30]:
-
+# Importamos las librerias necesarias
 
 import smtplib
 import sys 
@@ -14,21 +14,23 @@ from tkinter import messagebox
 from tkinter import Menu
 from tkinter import filedialog
 from tkinter import font
- 
-#file = filedialog.askopenfilename()
 
+
+# Creamos la ventana
 window = Tk() 
 window.title("Correo electrónico") 
 window.geometry('500x475')
 
 
 # -----------CAJAS-----------
-col = [0,2,4,6,8,9,11]  # Cajas en blanco
+# Cajas en blanco
+col = [0,2,4,6,8,9,11]  
 for i in col:
     lbl = Label(window, text=" ") 
     lbl.grid(column=0, row=i)
-    
-texto_cajas = ["Desde","Contraseña","Para","Asunto"] # Cajas con contenido
+   
+# Cajas con contenido   
+texto_cajas = ["Desde","Contraseña","Para","Asunto"] 
 numero_fila = 1
 for texto in texto_cajas:
     lbl = Label(window, text="    " + texto + " :  ") 
@@ -102,18 +104,24 @@ def clicked():
     except:
         messagebox.showinfo('Información','Usuario o contraseña incorrectos')
 
+      
+# Botón de enviado
 btn = Button(window, text="ENVIAR", command=clicked, width=58, height=1, anchor="center")
 btn.place(x=46,y=427)
 
-class MsgBox(Toplevel):
 
-    def __init__(self, title="Información", message="Hello World"):
+
+# Creamos las funciones que posteriormente vamos a usar en el menú
+
+# Clase para generarme un mensaje
+class MsgBox(Toplevel):
+    def __init__(self, titulo=" ", mensaje=" "):
         Toplevel.__init__(self)
 
-        self.title(title)
+        self.title(titulo)
         
         self.font = font.Font(size=11)
-        self.label = Label(self, text=message, font = self.font)
+        self.label = Label(self, text=mensaje, font = self.font)
         self.label['bg'] = 'white'
         self.label.pack(ipadx=50, ipady=10, fill='both', expand=True)
 
@@ -121,8 +129,7 @@ class MsgBox(Toplevel):
         self.button['command'] = self.destroy
         self.button.pack(pady=10, padx=10, ipadx=20, side='left')
 
-# --- functions ---
-
+# Genera un mensaje cuando es llamada
 def about():
     mensaje = """
     La aplicación ha sido creada
@@ -136,44 +143,41 @@ def about():
     msg = MsgBox("Información", mensaje)
 
 
-# Menú
+# Limpia las cajas cuando es llamada
 def limpiar():
     texto.delete("1.0",END)
     receptor.delete(0,END)
     asunto.delete(0,END)
     emisor.delete(0,END)
     password.delete(0,END)
-    
+  
+  
+# Cierra la ventana cuando es llamada  
 def salirAplicacion():
     decision = messagebox.askquestion("Salir","Deseas salir de la aplicación?")
     if decision == "yes":
         window.destroy()
         
-def link():
-    import webbrowser
-    webbrowser.open("javiersebastianfernandez.com")
+
     
-def contact():
-    receptor.insert(0,"javi.sebas@hotmail.es")
-    asunto.insert(0,"Mensaje de usuario de EnviaCorreo")
-    
+# Creamos el MENÚ
 
 menubar = Menu(window)
-# Parte file del menu
+
+# Creamos seccion "Configuración"
 filemenu = Menu(menubar, tearoff=0)
-menubar.add_cascade(label="Configuracion", menu=filemenu)
 filemenu.add_command(label="Borrar", command=limpiar)
 filemenu.add_separator()
-filemenu.add_command(label="Salir", command=salirAplicacion, accelerator="Ctrl+w")
-# Añadimos parte de información
+filemenu.add_command(label="Salir", command=salirAplicacion)
+menubar.add_cascade(label="Configuracion", menu=filemenu)
+
+# Creamos seccion "Ayuda"
 helpmenu = Menu(menubar, tearoff=0)
 helpmenu.add_command(label="Información", command=about)
-helpmenu.add_command(label="Desarrollador", command=link)
-helpmenu.add_command(label="Contactar", command=contact)
 menubar.add_cascade(label="Ayuda", menu=helpmenu)
 
 window.config(menu=menubar)
 
-
+# La ventana se mantendrá en un mainloop para que la interfaz esté siempre en ejecución
 window.mainloop() 
 
