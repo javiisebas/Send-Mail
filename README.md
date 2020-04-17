@@ -1,5 +1,5 @@
 # Send-Mail
-_Create a graphical interface to send emails_
+Create a graphical interface to send emails
 
 ## Used packages
 1. Tkinter
